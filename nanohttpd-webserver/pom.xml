@@ -4,6 +4,7 @@
 	<groupId>org.nanohttpd</groupId>
 	<version>2.3.2-SNAPSHOT</version>
 	<artifactId>nanohttpd-webserver</artifactId>
+	
 	<packaging>jar</packaging>
 	<name>NanoHttpd-Webserver</name>
 	<description>nanohttpd-webserver can serve any local directory as a webserver using nanohttpd.</description>
