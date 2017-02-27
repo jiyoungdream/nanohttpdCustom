@@ -421,8 +421,8 @@ public class SimpleWebServer extends NanoHTTPD {
 				return new CustomAPI().doApi(actionType, bodyParam);
 			}
 			// 파일 다운로드 요청
-			else if (actionType.contains(".zip")) {
-				
+			if (actionType.contains(".zip")) {
+
 			} else {
 
 			}

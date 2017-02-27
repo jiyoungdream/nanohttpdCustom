@@ -75,18 +75,36 @@
 					<a class="example-image-link" href="http://lokeshdhakar.com/projects/lightbox2/images/image-6.jpg" data-lightbox="example-set" ><img class="example-image" src="http://lokeshdhakar.com/projects/lightbox2/images/thumb-6.jpg" alt="" /></a>
 				</li>
 			</ul>
-	      
-	      
-	      
-	      
 	    </div>
 	</div>
     
    
   <script src="./js/lightbox-plus-jquery.min.js"></script>
   <script src="./js/jszip.min.js"></script>
-
+  <script src="./js/jquery-3.1.1.min.js"></script>
 	<script>
+		Url = {
+			    get get(){
+			        var vars= {};
+			        if(window.location.search.length!==0)
+			            window.location.search.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(m,key,value){
+			                key=decodeURIComponent(key);
+			                if(typeof vars[key]==="undefined") {vars[key]= decodeURIComponent(value);}
+			                else {vars[key]= [].concat(vars[key], decodeURIComponent(value));}
+			            });
+			        return vars;
+			    }
+		};
+	
+		$(document).ready(function () {
+			
+			console.log(Url.get.folder);
+			
+			$("li").off("click").on("click", function() {
+				location.href = "images.html?folder=" + $(this).attr("name");
+			});
+		});
+
 	    lightbox.option({
 	      'alwaysShowNavOnTouchDevices' : true,
 			'resizeDuration' : 200,

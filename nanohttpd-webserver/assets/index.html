@@ -60,13 +60,13 @@
 
 		<div class="folder-wrapper">
 			<ul>
-				<li class="folder">
+				<li class="folder" name="2017-02-27">
 					<div class="block">
 						<img src="images/folder.png">
 					</div> 
 					<span>2017-02-11</span>
 				</li>
-				<li class="folder">
+				<li class="folder" name="2017-02-26">
 					<div class="block">
 						<img src="images/folder.png">
 					</div> 
@@ -109,7 +109,14 @@
 
 	<!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
 	<script src="./js/ie10-viewport-bug-workaround.js"></script>
-
+	<script src="./js/jquery-3.1.1.min.js"></script>
+	<script>
+		$(document).ready(function () {
+			$("li").off("click").on("click", function() {
+				location.href = "images.html?folder=" + $(this).attr("name");
+			});
+		});
+	</script>
 
 </body>
 </html>
