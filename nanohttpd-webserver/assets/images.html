@@ -40,38 +40,44 @@
 	<div class="container">
 	
 		<div class="header clearfix">
-			<nav>
-				<ul class="nav nav-pills pull-right">
+			<nav class="pull-right">
+				<ul>
+					<li><label class="checkbox-wrap"><input type="checkbox" name="allChkBox" value="" id="allChkBox"><i class="check-icon"></i></label></li>
+					<li><button type="button" class="btn btn-success">download</button></li>
+				</ul>
+				
+				
+				<!-- <ul class="nav nav-pills pull-right">
 					<li role="presentation" class="active"><a
 						href="http://getbootstrap.com/examples/jumbotron-narrow/#">Home</a></li>
 					<li role="presentation"><a
 						href="http://getbootstrap.com/examples/jumbotron-narrow/#">About</a></li>
 					<li role="presentation"><a
 						href="http://getbootstrap.com/examples/jumbotron-narrow/#">Contact</a></li>
-				</ul>
+				</ul> -->
 			</nav>
-			<h3 class="text-muted">Project name</h3>
+			<h3 class="text-muted" id="title">images</h3>
 		</div>
 		<div class="image-wrapper">
 			<ul>
 				<li class="image">
-					<label class="checkbox-wrap"><input type="checkbox" name="" value=""><i class="check-icon"></i></label>
+					<label class="checkbox-wrap"><input type="checkbox" name="chkbox" value=""><i class="check-icon"></i></label>
 					<a class="example-image-link" href="images/folder.png" data-lightbox="example-set" ><img class="example-image" src="images/folder.png" alt=""/></a>
 				</li>	
 				<li class="image">
-					<label class="checkbox-wrap"><input type="checkbox" name="" value=""><i class="check-icon"></i></label>
+					<label class="checkbox-wrap"><input type="checkbox" name="chkbox" value=""><i class="check-icon"></i></label>
 					<a class="example-image-link" href="http://lokeshdhakar.com/projects/lightbox2/images/image-3.jpg" data-lightbox="example-set" ><img class="example-image" src="http://lokeshdhakar.com/projects/lightbox2/images/thumb-3.jpg" alt=""/></a>
 				</li>
 				<li class="image">
-					<label class="checkbox-wrap"><input type="checkbox" name="" value=""><i class="check-icon"></i></label>
+					<label class="checkbox-wrap"><input type="checkbox" name="chkbox" value=""><i class="check-icon"></i></label>
 					<a class="example-image-link" href="http://lokeshdhakar.com/projects/lightbox2/images/image-4.jpg" data-lightbox="example-set" ><img class="example-image" src="http://lokeshdhakar.com/projects/lightbox2/images/thumb-4.jpg" alt="" /></a>
 				</li>
 				<li class="image">
-					<label class="checkbox-wrap"><input type="checkbox" name="" value=""><i class="check-icon"></i></label>
+					<label class="checkbox-wrap"><input type="checkbox" name="chkbox" value=""><i class="check-icon"></i></label>
 					<a class="example-image-link" href="http://lokeshdhakar.com/projects/lightbox2/images/image-5.jpg" data-lightbox="example-set" ><img class="example-image" src="http://lokeshdhakar.com/projects/lightbox2/images/thumb-5.jpg" alt="" /></a>
 				</li>
 				<li class="image">	
-					<label class="checkbox-wrap"><input type="checkbox" name="" value=""><i class="check-icon"></i></label>	
+					<label class="checkbox-wrap"><input type="checkbox" name="chkbox" value=""><i class="check-icon"></i></label>
 					<a class="example-image-link" href="http://lokeshdhakar.com/projects/lightbox2/images/image-6.jpg" data-lightbox="example-set" ><img class="example-image" src="http://lokeshdhakar.com/projects/lightbox2/images/thumb-6.jpg" alt="" /></a>
 				</li>
 			</ul>
@@ -83,6 +89,7 @@
   <script src="./js/jszip.min.js"></script>
   <script src="./js/jquery-3.1.1.min.js"></script>
 	<script>
+		// 파라미터 가져오기
 		Url = {
 			    get get(){
 			        var vars= {};
@@ -97,22 +104,46 @@
 		};
 	
 		$(document).ready(function () {
+			$("#title").text(Url.get.folder);
+			$("#allChkBox").attr("checked", true);
+			$("#allChkBox").attr("checked", false);
+			// all checkbox 
+			$("#allChkBox").on("click", function() {
+				if(!$(this).is(":checked")) {
+					$("input[type=checkbox]").prop("checked", false);
+				} else {
+					$("input[type=checkbox]").prop("checked", true);
+				}
+			});
 			
-			console.log(Url.get.folder);
-			
-			$("li").off("click").on("click", function() {
-				location.href = "images.html?folder=" + $(this).attr("name");
+			// each checkbox
+			$("input[name=chkbox]:checkbox").off("click").on("click", function() {
+				if (! $(this).is(":checked")) {
+					$("input[name=allChkBox]:checkbox").prop("checked", false);
+				}
+				else {
+					$("input[name=allChkBox]:checkbox").prop("checked", chkBoxCheckedAll());
+				}
 			});
 		});
-
+		
+		function chkBoxCheckedAll() {
+			var i=0;
+			$("input[name=chkbox]:checkbox").each(function() {
+				if(!$(this).is(":checked")) i++;
+			});
+			if (i> 0) {
+				return false;
+			} else {
+				return true;
+			}
+		}
+		
 	    lightbox.option({
 	      'alwaysShowNavOnTouchDevices' : true,
 			'resizeDuration' : 200,
 			'wrapAround' : true
 		})
 	</script>
-
-
-
 </body>
 </html>

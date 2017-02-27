@@ -51,10 +51,56 @@ ul {
 	height: 150px;
 }
 
+.header ul li {
+	float: left;
+}
+
+.header ul li:first-child {
+	width:50px;
+}
+
+.header .checkbox-wrap {
+	margin-left: 5px;
+	margin-top: 5px;
+}
+
 .image-wrapper ul li {
 	float: left;
 }
 
+.header .checkbox {
+	margin-left: 5px;
+}
+
+.header .checkbox-wrap {
+	margin-left: 5px;
+	margin-top: 5px;
+}
+
+.checkbox-wrap {
+	cursor: pointer;
+}
+
+.header .check-icon {
+	display: inline-block;
+	width: 24px;
+	height: 24px;
+	background: url(../images/chk.png) left center no-repeat;
+	vertical-align: middle;
+	transition-duration: .3s;
+}
+
+.header input[type=checkbox] {
+	display: none;
+}
+
+.header input[type=checkbox]:checked+.check-icon {
+	background-image: url(../images/chk_active.png);
+}
+
+/**
+하단 체크 박스
+*/
 .image-wrapper .checkbox {
 	position: absolute;
 	margin-left: 5px;
