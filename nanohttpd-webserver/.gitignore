@@ -1,2 +1,4 @@
 /.settings/
 /LICENSE.txt
+/target/
+/.DS_Store
