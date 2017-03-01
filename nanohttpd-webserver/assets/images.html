@@ -43,7 +43,7 @@
 			<nav class="pull-right">
 				<ul>
 					<li><label class="checkbox-wrap"><input type="checkbox" name="allChkBox" value="" id="allChkBox"><i class="check-icon"></i></label></li>
-					<li><button type="button" class="btn btn-success">download</button></li>
+					<li><button type="button" class="btn btn-success" id="download">download</button></li>
 				</ul>
 				
 				
@@ -61,16 +61,16 @@
 		<div class="image-wrapper">
 			<ul>
 				<li class="image">
-					<label class="checkbox-wrap"><input type="checkbox" name="chkbox" value=""><i class="check-icon"></i></label>
-					<a class="example-image-link" href="images/folder.png" data-lightbox="example-set" ><img class="example-image" src="images/folder.png" alt=""/></a>
+					<label class="checkbox-wrap"><input type="checkbox" name="chkbox" value="folder.png"><i class="check-icon"></i></label>
+					<a class="example-image-link" href="images/folder.png" data-lightbox="example-set" ><img class="example-image" src="/images/folder.png" alt=""/></a>
 				</li>	
 				<li class="image">
-					<label class="checkbox-wrap"><input type="checkbox" name="chkbox" value=""><i class="check-icon"></i></label>
-					<a class="example-image-link" href="http://lokeshdhakar.com/projects/lightbox2/images/image-3.jpg" data-lightbox="example-set" ><img class="example-image" src="http://lokeshdhakar.com/projects/lightbox2/images/thumb-3.jpg" alt=""/></a>
+					<label class="checkbox-wrap"><input type="checkbox" name="chkbox" value="close.png"><i class="check-icon"></i></label>
+					<a class="example-image-link" href="http://lokeshdhakar.com/projects/lightbox2/images/image-3.jpg" data-lightbox="example-set" ><img class="example-image" src="images/close.png" alt=""/></a>
 				</li>
 				<li class="image">
-					<label class="checkbox-wrap"><input type="checkbox" name="chkbox" value=""><i class="check-icon"></i></label>
-					<a class="example-image-link" href="http://lokeshdhakar.com/projects/lightbox2/images/image-4.jpg" data-lightbox="example-set" ><img class="example-image" src="http://lokeshdhakar.com/projects/lightbox2/images/thumb-4.jpg" alt="" /></a>
+					<label class="checkbox-wrap"><input type="checkbox" name="chkbox" value="next.png"><i class="check-icon"></i></label>
+					<a class="example-image-link" href="http://lokeshdhakar.com/projects/lightbox2/images/image-4.jpg" data-lightbox="example-set" ><img class="example-image" src="images/next.png" alt="" /></a>
 				</li>
 				<li class="image">
 					<label class="checkbox-wrap"><input type="checkbox" name="chkbox" value=""><i class="check-icon"></i></label>
@@ -83,6 +83,10 @@
 			</ul>
 	    </div>
 	</div>
+	
+	<form method="POST" action="download.zip" name="download">
+		<input type="hidden" name="images" value="">
+	</form>
     
    
   <script src="./js/lightbox-plus-jquery.min.js"></script>
@@ -138,6 +142,23 @@
 				return true;
 			}
 		}
+		
+		$("#download").off("click").on("click", function() {
+			var data = {};
+			data.images = [];
+			
+			var i=0;
+			$("input[name=chkbox]:checkbox").each(function() {
+				if($(this).is(":checked")) {
+					data.images[i] = $(this).val();
+					i++;
+				}
+			});
+			
+			var downloadForm = document.forms["download"]; 
+			downloadForm.images.value = JSON.stringify(data.images);
+			downloadForm.submit();
+		});
 		
 	    lightbox.option({
 	      'alwaysShowNavOnTouchDevices' : true,
