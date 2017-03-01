@@ -51,6 +51,7 @@ import java.util.Map;
 import java.util.ServiceLoader;
 import java.util.StringTokenizer;
 
+import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
@@ -61,6 +62,7 @@ import org.nanohttpd.protocols.http.response.IStatus;
 import org.nanohttpd.protocols.http.response.Response;
 import org.nanohttpd.protocols.http.response.Status;
 import org.nanohttpd.util.ServerRunner;
+import org.nanohttpd.util.ZipUtility;
 
 public class SimpleWebServer extends NanoHTTPD {
 
@@ -399,32 +401,64 @@ public class SimpleWebServer extends NanoHTTPD {
 		String[] segments = uri.split("/");
 		if (segments.length > 0) {
 			String actionType = segments[segments.length - 1];
-
+			
 			final HashMap<String, String> map = new HashMap<String, String>();
 			JSONObject bodyParam = null;
 			try {
 				session.parseBody(map);
 				JSONParser parser = new JSONParser();
 				String postData = map.get("postData");
-				if (null != postData && !"".equals(postData)) {
-					bodyParam = (JSONObject) parser.parse(map.get("postData"));
-				}
+				
+				System.out.println("postData ::" +postData);
+				System.out.println("postData");
+				System.out.println("postData");
+				
+//				if (null != postData && !"".equals(postData)) {
+//					bodyParam = (JSONObject) parser.parse(map.get("postData"));
+					
+//					System.out.println("actionList ------");
+//					System.out.println("actionList ------");
+//					System.out.println("actionList ------");
+//					
+//					// json api call
+//					if (actionType.contains(".do")) {
+//						return new CustomAPI().doApi(actionType, bodyParam);
+//					}
+					// 파일 다운로드 요청
+					if (actionType.contains(".zip")) {
+						System.out.println("image download ------");
+						System.out.println("image download ------");
+						System.out.println("image download ------");
+//						session.parseBody(map);
+//						if (null != postData && !"".equals(postData)) {
+//							bodyParam = (JSONObject) parser.parse(map.get("postData"));
+//						}
+//						if (bodyParam.containsKey("images")) {
+//							JSONArray imageList = (JSONArray) bodyParam.get("images");
+//							System.out.println(imageList.toJSONString());
+//							System.out.println(imageList.toJSONString());
+//							System.out.println(imageList.toJSONString());
+//						}
+						
+						String postParameter = session.getParms().get("images");
+						System.out.println("images :: " + postParameter);
+						
+						ArrayList<String> imageList = new ArrayList<String>();
+						imageList.add("folder.png");
+						imageList.add("close.png");
+						imageList.add("next.png");
+						
+						String mimeTypeForFile = getMimeTypeForFile(uri);
+						File downFile = ZipUtility.filesToZip("assets/images", imageList);
+						return serveFile(uri, headers, downFile, mimeTypeForFile);
+//						
+					} 
+//				}
+			
 			} catch (IOException e) {
 				e.printStackTrace();
 			} catch (ResponseException e) {
 				e.printStackTrace();
-			} catch (ParseException e) {
-				e.printStackTrace();
-			}
-			// json api call
-			if (actionType.contains(".do")) {
-				return new CustomAPI().doApi(actionType, bodyParam);
-			}
-			// 파일 다운로드 요청
-			if (actionType.contains(".zip")) {
-
-			} else {
-
 			}
 		}
 
@@ -465,6 +499,7 @@ public class SimpleWebServer extends NanoHTTPD {
 			}
 		}
 		String mimeTypeForFile = getMimeTypeForFile(uri);
+		
 		WebServerPlugin plugin = SimpleWebServer.mimeTypeHandlers.get(mimeTypeForFile);
 		Response response = null;
 		if (plugin != null && plugin.canServeUri(uri, homeDir)) {
